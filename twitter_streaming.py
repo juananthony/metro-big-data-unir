@@ -4,7 +4,7 @@ import json
 import os
 from pymongo import MongoClient
 
-MONGO_HOST = "mongodb+srv://" + os.environ['MONGO_USER'] + ":" + os.environ['MONGO_PASS'] + "@cluster0-2bfcj.mongodb.net/test?retryWrites=true"
+MONGO_HOST = 'mongodb+srv://' + os.environ['MONGO_USER'] + ':' + os.environ['MONGO_PASS'] + '@cluster0-2bfcj.mongodb.net/test?retryWrites=true'
 
 WORDS = ['#metro', '#madrid', '#L1', '#L2', '#L3', '#L4', '#L6']
 
