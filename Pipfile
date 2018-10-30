@@ -1,1 +1,13 @@
-python_version = "3.6.2"
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+tweepy = "==3.6.0"
+pymongo = "==3.7.2"
+
+[dev-packages]
+
+[requires]
+python_version = "3.7"
