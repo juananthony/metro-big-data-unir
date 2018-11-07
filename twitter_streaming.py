@@ -19,9 +19,6 @@ ACCESS_TOKEN_SECRET = os.environ['ACCESS_TOKEN_SECRET']
 logging.info("Starting app")
 print("Starting app")
 
-app = Flask(__name__)
-app.run(host= '0.0.0.0', port=environ.get('PORT'))
-
 class StreamListener(tweepy.StreamListener):    
     #This is a class provided by tweepy to access the Twitter Streaming API. 
  
@@ -70,3 +67,6 @@ logging.info("Tracking: " + str(WORDS))
 print("Tracking: " + str(WORDS))
 streamerSearch.filter(track=WORDS)
 streamerOfficial.filter(follow=os.environ['OFFICIAL_METRO_ACCOUNT'])
+
+app = Flask(__name__)
+app.run(host= '0.0.0.0', port=environ.get('PORT'))
