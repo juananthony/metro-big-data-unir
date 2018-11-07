@@ -1,1 +1,1 @@
-worker: python3 twitter_streaming.py
+worker: python twitter_streaming.py
