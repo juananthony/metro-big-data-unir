@@ -4,6 +4,8 @@ import json
 import os
 import logging
 from pymongo import MongoClient
+from os import environ
+from flask import Flask
 
 MONGO_HOST = 'mongodb+srv://' + os.environ['MONGO_USER'] + ':' + os.environ['MONGO_PASS'] + '@cluster0-2bfcj.mongodb.net/test?retryWrites=true'
 
@@ -15,6 +17,9 @@ ACCESS_TOKEN = os.environ['ACCESS_TOKEN']
 ACCESS_TOKEN_SECRET = os.environ['ACCESS_TOKEN_SECRET']
  
 logging.info("Starting app")
+
+app = Flask(__name__)
+app.run(environ.get('PORT'))
 
 class StreamListener(tweepy.StreamListener):    
     #This is a class provided by tweepy to access the Twitter Streaming API. 
