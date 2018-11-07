@@ -44,16 +44,17 @@ class StreamListener(tweepy.StreamListener):
             # Decode the JSON from Twitter
             datajson = json.loads(data)
             
-            #grab the 'created_at' data from the Tweet to use for display
-            created_at = datajson['created_at']
- 
-            #print out a message to the screen that we have collected a tweet
-            logging.debug("Tweet collected at " + str(created_at))
-            print("Tweet collected at " + str(created_at))
-            
-            #insert the data into the mongoDB into a collection called tweets
-            #if tweets doesn't exist, it will be created.
-            db.tweets.insert(datajson)
+            if datajson['lang'] == 'es':
+                #grab the 'created_at' data from the Tweet to use for display
+                created_at = datajson['created_at']
+    
+                #print out a message to the screen that we have collected a tweet
+                logging.debug("Tweet collected at " + str(created_at))
+                print("Tweet collected at " + str(created_at))
+                
+                #insert the data into the mongoDB into a collection called tweets
+                #if tweets doesn't exist, it will be created.
+                db.tweets.insert(datajson)
         except Exception as e:
            print(e)
  
