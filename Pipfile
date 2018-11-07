@@ -6,6 +6,7 @@ name = "pypi"
 [packages]
 tweepy = "==3.6.0"
 pymongo = "==3.7.2"
+flask = "*"
 
 [dev-packages]
 
