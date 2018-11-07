@@ -17,6 +17,7 @@ ACCESS_TOKEN = os.environ['ACCESS_TOKEN']
 ACCESS_TOKEN_SECRET = os.environ['ACCESS_TOKEN_SECRET']
  
 logging.info("Starting app")
+print("Starting app")
 
 app = Flask(__name__)
 app.run(host= '0.0.0.0', port=environ.get('PORT'))
