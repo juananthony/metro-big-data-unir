@@ -28,10 +28,12 @@ class StreamListener(tweepy.StreamListener):
     def on_connect(self):
         # Called initially to connect to the Streaming API
         logging.info("You are now connected to the streaming API.")
+        print("You are now connected to the streaming API.")
  
     def on_error(self, status_code):
         # On error - if an error occurs, display the error / status code
         logging.error('An Error has occured: ' + repr(status_code))
+        print('An Error has occured: ' + repr(status_code))
         return False
  
     def on_data(self, data):
@@ -50,6 +52,7 @@ class StreamListener(tweepy.StreamListener):
  
             #print out a message to the screen that we have collected a tweet
             logging.debug("Tweet collected at " + str(created_at))
+            print("Tweet collected at " + str(created_at))
             
             #insert the data into the mongoDB into a collection called tweets
             #if tweets doesn't exist, it will be created.
@@ -64,5 +67,6 @@ listener = StreamListener(api=tweepy.API(wait_on_rate_limit=True))
 streamerSearch = tweepy.Stream(auth=auth, listener=listener)
 streamerOfficial = tweepy.Stream(auth=auth, listener=listener)
 logging.info("Tracking: " + str(WORDS))
+print("Tracking: " + str(WORDS))
 streamerSearch.filter(track=WORDS)
 streamerOfficial.filter(follow=os.environ['OFFICIAL_METRO_ACCOUNT'])
