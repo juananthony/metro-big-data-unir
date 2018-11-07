@@ -19,7 +19,7 @@ ACCESS_TOKEN_SECRET = os.environ['ACCESS_TOKEN_SECRET']
 logging.info("Starting app")
 
 app = Flask(__name__)
-app.run(environ.get('PORT'))
+app.run(host= '0.0.0.0', port=environ.get('PORT'))
 
 class StreamListener(tweepy.StreamListener):    
     #This is a class provided by tweepy to access the Twitter Streaming API. 
