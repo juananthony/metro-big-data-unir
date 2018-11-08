@@ -67,7 +67,7 @@ streamerOfficial = tweepy.Stream(auth=auth, listener=listener)
 logging.info("Tracking: " + str(WORDS))
 print("Tracking: " + str(WORDS))
 streamerSearch.filter(track=WORDS)
-streamerOfficial.filter(follow=os.environ['OFFICIAL_METRO_ACCOUNT'])
+streamerOfficial.filter(follow=None, track=os.environ['OFFICIAL_METRO_ACCOUNT'])
 
 app = Flask(__name__)
 app.run(host= '0.0.0.0', port=environ.get('PORT'))
