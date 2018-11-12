@@ -12,10 +12,16 @@ MONGO_HOST = 'mongodb+srv://' + os.environ['MONGO_USER'] + ':' + os.environ['MON
 
 WORDS = ['#metro', '#madrid', '#L1', '#L2', '#L3', '#L4', '#L6']
 
-CONSUMER_KEY = os.environ['CONSUMER_KEY']
-CONSUMER_SECRET = os.environ['CONSUMER_SECRET']
-ACCESS_TOKEN = os.environ['ACCESS_TOKEN']
-ACCESS_TOKEN_SECRET = os.environ['ACCESS_TOKEN_SECRET']
+if sys.argv[1] == '-t':
+    CONSUMER_KEY = os.environ['CONSUMER_KEY']
+    CONSUMER_SECRET = os.environ['CONSUMER_SECRET']
+    ACCESS_TOKEN = os.environ['ACCESS_TOKEN']
+    ACCESS_TOKEN_SECRET = os.environ['ACCESS_TOKEN_SECRET']
+elif sys.argv[1] == '-f':
+    CONSUMER_KEY = os.environ['CONSUMER_KEY_FOLLOW']
+    CONSUMER_SECRET = os.environ['CONSUMER_SECRET_FOLLOW']
+    ACCESS_TOKEN = os.environ['ACCESS_TOKEN_FOLLOW']
+    ACCESS_TOKEN_SECRET = os.environ['ACCESS_TOKEN_SECRET_FOLLOW']
  
 logging.info("Starting app")
 print("Starting app")
