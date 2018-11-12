@@ -2,12 +2,13 @@ from __future__ import print_function
 import tweepy
 import json
 import os
+import sys
 import logging
 from pymongo import MongoClient
 from os import environ
 from flask import Flask
 
-MONGO_HOST = 'mongodb+srv://' + os.environ['MONGO_USER'] + ':' + os.environ['MONGO_PASS'] + '@cluster0-2bfcj.mongodb.net/test?retryWrites=true'
+MONGO_HOST = 'mongodb+srv://' + os.environ['MONGO_USER'] + ':' + os.environ['MONGO_PASS'] + '@' + os.environ['MONGO_SERVER'] + '/test?retryWrites=true'
 
 WORDS = ['#metro', '#madrid', '#L1', '#L2', '#L3', '#L4', '#L6']
 
@@ -60,14 +61,15 @@ class StreamListener(tweepy.StreamListener):
  
 auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
 auth.set_access_token(ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
-#Set up the listener. The 'wait_on_rate_limit=True' is needed to help with Twitter API rate limiting.
-listener = StreamListener(api=tweepy.API(wait_on_rate_limit=True)) 
-streamerSearch = tweepy.Stream(auth=auth, listener=listener)
-streamerOfficial = tweepy.Stream(auth=auth, listener=listener)
-logging.info("Tracking: " + str(WORDS))
-print("Tracking: " + str(WORDS))
-streamerSearch.filter(track=WORDS)
-streamerOfficial.filter(follow=None, track=os.environ['OFFICIAL_METRO_ACCOUNT'])
 
-app = Flask(__name__)
-app.run(host= '0.0.0.0', port=environ.get('PORT'))
+# Set up the listener. The 'wait_on_rate_limit=True' is needed to help with Twitter API rate limiting.
+listener = StreamListener(api=tweepy.API(wait_on_rate_limit=True)) 
+streamer = tweepy.Stream(auth=auth, listener=listener)
+
+
+if sys.argv[1] == '-t':
+    print("Tracking: " + str(WORDS))
+    streamer.filter(track=WORDS)
+elif sys.argv[1] == '-f':
+    print("user.id: " + os.environ['OFFICIAL_METRO_ACCOUNT'])
+    streamer.filter(follow=[os.environ['OFFICIAL_METRO_ACCOUNT']])
