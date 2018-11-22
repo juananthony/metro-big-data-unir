@@ -28,16 +28,5 @@ class StreamListener(tweepy.StreamListener):
 
             self.nlpProcessor.classify(tweet)
             
-            if tweet.isSpanish():
-                #grab the 'created_at' data from the Tweet to use for display
-                created_at = tweet.created_at
-    
-                #print out a message to the screen that we have collected a tweet
-                logging.debug("Tweet collected at " + str(created_at))
-                print("Tweet collected at " + str(created_at))
-                
-                #insert the data into the mongoDB into a collection called tweets
-                #if tweets doesn't exist, it will be created.
-                db.tweets.insert(tweet.jsonData)
         except Exception as e:
            print(e)
