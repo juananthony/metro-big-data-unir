@@ -31,10 +31,10 @@ class Tweet:
 
     def generateWords(self):
         nltk.download('punkt')
-        print("generating word")
+        nltk.download('stopwords')
         tokens = [word for word in nltk.word_tokenize(self.text) if word.isalpha()]
-        print("stopwords")
         stopwords = nltk.corpus.stopwords.words("spanish")
+        print("deleting stopwords")
         self.words = list(set(tokens) - set(stopwords))
 
     def getWords(self):
