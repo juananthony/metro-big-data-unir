@@ -1,6 +1,6 @@
 import nltk
 import json
-from database import Database
+from .database import Database
 
 class Tweet:
 
@@ -16,14 +16,13 @@ class Tweet:
 
         self.text = self.extractText()
 
-        self.text = self.jsonData['extended_texttext']
         self.created_at = self.jsonData['created_at']
         self.user_id = self.jsonData['user']['id']
         self.lang = self.jsonData['lang']
 
     def extractText(self):
         text = ""
-        if self.jsonData.has_key('extended_tweet'):
+        if 'extended_tweet' in self.jsonData:
             text = self.jsonData['extended_tweet']['full_text']
         else:
             text = self.jsonData['text']
@@ -41,9 +40,9 @@ class Tweet:
     def saveTweet(self):
         database = Database()
         database.insert(collection_name = "tweets", data=self.jsonData)
-    
+
     def isSpanish(self):
         return self.lang == Tweet.SPANISH
-    
+
     def isEnglish(self):
         return self.lang == Tweet.ENGLISH

@@ -6,9 +6,9 @@ import logging
 import tweepy
 from os import environ
 from flask import Flask
-from classes.StreamListener import StreamListener
+from classes.streamListener import StreamListener
 
-WORDS = ['#metro', '#madrid', '#L1', '#L2', '#L3', '#L4', '#L6']
+WORDS = ['#metro', '#madrid', '#L1', '#L2', '#L3', '#L4', '#L6', '#L7', '#L8', '#L9', '#L10', '#L11', '#L12']
 
 if sys.argv[1] == '-t':
     CONSUMER_KEY = os.environ['CONSUMER_KEY']
@@ -20,15 +20,15 @@ elif sys.argv[1] == '-f':
     CONSUMER_SECRET = os.environ['CONSUMER_SECRET_FOLLOW']
     ACCESS_TOKEN = os.environ['ACCESS_TOKEN_FOLLOW']
     ACCESS_TOKEN_SECRET = os.environ['ACCESS_TOKEN_SECRET_FOLLOW']
- 
+
 logging.info("Starting app")
 print("Starting app")
- 
+
 auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
 auth.set_access_token(ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
 
 # Set up the listener. The 'wait_on_rate_limit=True' is needed to help with Twitter API rate limiting.
-listener = StreamListener(api=tweepy.API(wait_on_rate_limit=True)) 
+listener = StreamListener(api=tweepy.API(wait_on_rate_limit=True))
 streamer = tweepy.Stream(auth=auth, listener=listener)
 
 
