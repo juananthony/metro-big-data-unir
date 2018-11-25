@@ -1,2 +1,2 @@
-userworker: python twitter_streaming.py -f 
-trackworker: python twitter_streaming.py -t
+userworker: python main.py -f 
+trackworker: python main.py -t
