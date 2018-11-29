@@ -34,8 +34,8 @@ class Tweet:
         nltk.download('stopwords')
         tokens = [word for word in nltk.word_tokenize(self.text) if word.isalpha()]
         stopwords = nltk.corpus.stopwords.words("spanish")
-        print("deleting stopwords")
         self.words = list(set(tokens) - set(stopwords))
+        self.bigrams = nltk.bigrams(tokens)
 
     def getWords(self):
         return self.words

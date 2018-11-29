@@ -8,7 +8,7 @@ from os import environ
 from flask import Flask
 from classes.streamListener import StreamListener
 
-WORDS = ['#metro', '#madrid', '#L1', '#L2', '#L3', '#L4', '#L6', '#L7', '#L8', '#L9', '#L10', '#L11', '#L12']
+WORDS = ['metro_madrid']
 
 if sys.argv[1] == '-t':
     CONSUMER_KEY = os.environ['CONSUMER_KEY']
