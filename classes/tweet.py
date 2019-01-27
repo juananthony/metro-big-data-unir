@@ -1,6 +1,7 @@
 import nltk
 import json
 from .database import Database
+from nltk.tokenize import word_tokenize
 
 class Tweet:
 
@@ -49,3 +50,9 @@ class Tweet:
 
     def isEnglish(self):
         return self.lang == Tweet.ENGLISH
+
+    def getFeatures(self, all_words) :
+        return {word.lower(): (word in word_tokenize(self.text.lower())) for word in all_words}
+
+    def setClassification(self, classification, classifier_name):
+        self.jsonData['classification'] = {'naive_bayes': {'result' : classification, 'classifier': classifier_name}}
