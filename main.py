@@ -7,22 +7,40 @@ import tweepy
 from os import environ
 from flask import Flask
 from classes.streamListener import StreamListener
+import config
 
 WORDS = ['metro_madrid']
 
-if sys.argv[1] == '-t':
-    CONSUMER_KEY = os.environ['CONSUMER_KEY']
-    CONSUMER_SECRET = os.environ['CONSUMER_SECRET']
-    ACCESS_TOKEN = os.environ['ACCESS_TOKEN']
-    ACCESS_TOKEN_SECRET = os.environ['ACCESS_TOKEN_SECRET']
-elif sys.argv[1] == '-f':
-    CONSUMER_KEY = os.environ['CONSUMER_KEY_FOLLOW']
-    CONSUMER_SECRET = os.environ['CONSUMER_SECRET_FOLLOW']
-    ACCESS_TOKEN = os.environ['ACCESS_TOKEN_FOLLOW']
-    ACCESS_TOKEN_SECRET = os.environ['ACCESS_TOKEN_SECRET_FOLLOW']
+logger = logging.getLogger(__name__)
 
-logging.info("Starting app")
-print("Starting app")
+# Create handlers
+c_handler = logging.StreamHandler()
+f_handler = logging.FileHandler("file_{}.log".format(sys.argv[1]))
+c_handler.setLevel(logging.WARNING)
+f_handler.setLevel(logging.ERROR)
+
+# Create formatters and add it to handlers
+c_format = logging.Formatter('%(name)s - %(levelname)s - %(message)s')
+f_format = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+c_handler.setFormatter(c_format)
+f_handler.setFormatter(f_format)
+
+# Add handlers to the logger
+logger.addHandler(c_handler)
+logger.addHandler(f_handler)
+
+if sys.argv[1] == '-t':
+    CONSUMER_KEY = config.CONSUMER_KEY
+    CONSUMER_SECRET = config.CONSUMER_SECRET
+    ACCESS_TOKEN = config.ACCESS_TOKEN
+    ACCESS_TOKEN_SECRET = config.ACCESS_TOKEN_SECRET
+elif sys.argv[1] == '-f':
+    CONSUMER_KEY = config.CONSUMER_KEY_FOLLOW
+    CONSUMER_SECRET = config.CONSUMER_SECRET_FOLLOW
+    ACCESS_TOKEN = config.ACCESS_TOKEN_FOLLOW
+    ACCESS_TOKEN_SECRET = config.ACCESS_TOKEN_SECRET_FOLLOW
+
+logger.info("Starting app")
 
 auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
 auth.set_access_token(ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
@@ -33,8 +51,8 @@ streamer = tweepy.Stream(auth=auth, listener=listener)
 
 
 if sys.argv[1] == '-t':
-    print("Tracking: " + str(WORDS))
+    logger.info("Tracking: " + str(WORDS))
     streamer.filter(track=WORDS)
 elif sys.argv[1] == '-f':
-    print("user.id: " + os.environ['OFFICIAL_METRO_ACCOUNT'])
-    streamer.filter(follow=[os.environ['OFFICIAL_METRO_ACCOUNT']])
+    logger.info("user.id: " + config.OFFICIAL_METRO_ACCOUNT)
+    streamer.filter(follow=[config.OFFICIAL_METRO_ACCOUNT])

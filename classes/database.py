@@ -1,9 +1,12 @@
 from pymongo import MongoClient
 import os
+import sys
+sys.path.append("..")
+import config
 
 class Database():
 
-    MONGO_HOST = 'mongodb+srv://' + os.environ['MONGO_USER'] + ':' + os.environ['MONGO_PASS'] + '@' + os.environ['MONGO_SERVER'] + '/test?retryWrites=true'
+    MONGO_HOST = 'mongodb+srv://' + config.MONGO_USER + ':' + config.MONGO_PASS + '@' + config.MONGO_SERVER + '/test?retryWrites=true'
 
     def __init__(self):
         # Creating MongoDB client connected to configured host by system properties
