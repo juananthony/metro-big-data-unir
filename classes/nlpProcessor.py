@@ -3,15 +3,19 @@ import pickle
 import logging
 import os
 from .tweet import Tweet
+import sys
+sys.path.append("..")
+import config
 
 class NlpProcessor():
 
     def __init__(self):
-        self.navie_bayes_classifier = os.environ['NAIVE_BAYES_CLASSIFIER']
-        f = open('classifiers/' + self.navie_bayes_classifier + '.classifier.pickle', 'rb')
+        script_dir = os.path.dirname(__file__)
+        self.navie_bayes_classifier = config.NAIVE_BAYES_CLASSIFIER
+        f = open(script_dir + '/../classifiers/' + self.navie_bayes_classifier + '.classifier.pickle', 'rb')
         self.classifier = pickle.load(f)
         f.close()
-        f = open('classifiers/' + self.navie_bayes_classifier + '.all_words.pickle', 'rb')
+        f = open(script_dir + '/../classifiers/' + self.navie_bayes_classifier + '.all_words.pickle', 'rb')
         self.all_words = pickle.load(f)
         f.close()
 
