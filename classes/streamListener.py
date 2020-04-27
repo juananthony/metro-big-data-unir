@@ -6,8 +6,9 @@ from .nlpProcessor import NlpProcessor
 class StreamListener(tweepy.StreamListener):
     #This is a class provided by tweepy to access the Twitter Streaming API.
 
-    def __init__(self, api):
+    def __init__(self, classify, api):
         self.nlpProcessor = NlpProcessor()
+        self.classify = classify
         super().__init__(api)
 
     def on_connect(self):
@@ -26,8 +27,9 @@ class StreamListener(tweepy.StreamListener):
         try:
             # Decode the JSON from Twitter
             tweet = Tweet(data)
-
-            self.nlpProcessor.classify(tweet)
+            if self.classify:
+                self.nlpProcessor.classify(tweet)
+            tweet.saveTweet()
 
         except Exception as e:
             print(" ########### ERROR in StreamListener:")

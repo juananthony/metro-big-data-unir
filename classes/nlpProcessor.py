@@ -30,5 +30,3 @@ class NlpProcessor():
             print("classification: " + classification)
 
             tweet.setClassification(classification, self.navie_bayes_classifier)
-
-            tweet.saveTweet()
