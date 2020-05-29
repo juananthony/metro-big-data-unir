@@ -17,10 +17,7 @@ f_handler = TimedRotatingFileHandler(
                 filename=os.path.join('./logs', 'metrodata' + sys.argv[1] + '.log'),
                 when="midnight",
                 interval=1,
-                backupCount=7
-            rotating_handler.setLevel(level)
-            rotating_handler.setFormatter(formatter)
-            self.logger.addHandler(rotating_handler)
+                backupCount=7)
 c_handler.setLevel(logging.WARNING)
 f_handler.setLevel(logging.ERROR)
 
