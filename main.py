@@ -7,6 +7,7 @@ import tweepy
 from os import environ
 from flask import Flask
 from logging.handlers import TimedRotatingFileHandler
+from urllib3.exceptions import ProtocolError
 
 
 WORDS = ['metro_madrid']
@@ -61,9 +62,13 @@ listener = StreamListener(classify=has_to_classify, api=tweepy.API(wait_on_rate_
 streamer = tweepy.Stream(auth=auth, listener=listener)
 
 
-if sys.argv[1] == '-t':
-    logger.info("Tracking: " + str(WORDS))
-    streamer.filter(track=WORDS)
-elif sys.argv[1] == '-f':
-    logger.info("user.id: " + config.OFFICIAL_METRO_ACCOUNT)
-    streamer.filter(follow=[config.OFFICIAL_METRO_ACCOUNT])
+while True:
+    try:
+        if sys.argv[1] == '-t':
+            logger.info("Tracking: " + str(WORDS))
+            streamer.filter(track=WORDS)
+        elif sys.argv[1] == '-f':
+            logger.info("user.id: " + config.OFFICIAL_METRO_ACCOUNT)
+            streamer.filter(follow=[config.OFFICIAL_METRO_ACCOUNT])
+    except (ProtocolError, AttributeError):
+        continue
