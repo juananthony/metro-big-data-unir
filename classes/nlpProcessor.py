@@ -7,9 +7,13 @@ import sys
 sys.path.append("..")
 import config
 
+logger = logging.getLogger(__name__)
+
+
 class NlpProcessor():
 
     def __init__(self):
+        logger.info("Initializing NlpProcessor")
         script_dir = os.path.dirname(__file__)
         self.navie_bayes_classifier = config.NAIVE_BAYES_CLASSIFIER
         f = open(script_dir + '/../classifiers/' + self.navie_bayes_classifier + '.classifier.pickle', 'rb')
@@ -20,17 +24,19 @@ class NlpProcessor():
         f.close()
 
     def classify(self, tweet):
-        if tweet.isSpanish():
-            print("tweet:")
-            print(tweet.words)
-            created_at = tweet.created_at
-            #print out a message to the screen that we have collected a tweet
-            logging.debug("Tweet collected at " + str(created_at))
-            print("Tweet collected at " + str(created_at))
+        try:
+            logger.info('classifing tweet: ' + tweet)
+            if tweet.isSpanish():
+                logger.info('tweet is in spanish')
+                created_at = tweet.created_at
+                #print out a message to the screen that we have collected a tweet
+                logger.info("Tweet collected at " + str(created_at))
+                logger.info("Getting tweet features")
+                text_features = tweet.getFeatures(self.all_words)
+                logger.info("Classifing tweet")
+                classification = self.classifier.classify(text_features)
+                logger.info('tweet is classified as ' + classification)
 
-            text_features = tweet.getFeatures(self.all_words)
-
-            classification = self.classifier.classify(text_features)
-            print("classification: " + classification)
-
-            tweet.setClassification(classification, self.navie_bayes_classifier)
+                tweet.setClassification(classification, self.navie_bayes_classifier)
+        except Exception as e:
+            logger.error(e)

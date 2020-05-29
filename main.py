@@ -6,8 +6,6 @@ import logging
 import tweepy
 from os import environ
 from flask import Flask
-from classes.streamListener import StreamListener
-import config
 
 WORDS = ['metro_madrid']
 
@@ -15,7 +13,14 @@ logger = logging.getLogger(__name__)
 
 # Create handlers
 c_handler = logging.StreamHandler()
-f_handler = logging.FileHandler("file_{}.log".format(sys.argv[1]))
+f_handler = TimedRotatingFileHandler(
+                filename=os.path.join('./logs', 'metrodata' + sys.argv[1] + '.log'),
+                when="midnight",
+                interval=1,
+                backupCount=7
+            rotating_handler.setLevel(level)
+            rotating_handler.setFormatter(formatter)
+            self.logger.addHandler(rotating_handler)
 c_handler.setLevel(logging.WARNING)
 f_handler.setLevel(logging.ERROR)
 
@@ -41,6 +46,9 @@ elif sys.argv[1] == '-f':
     ACCESS_TOKEN_SECRET = config.ACCESS_TOKEN_SECRET_FOLLOW
 
 logger.info("Starting app")
+
+from classes.streamListener import StreamListener
+import config
 
 auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
 auth.set_access_token(ACCESS_TOKEN, ACCESS_TOKEN_SECRET)

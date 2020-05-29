@@ -3,6 +3,9 @@ import os
 import sys
 sys.path.append("..")
 import config
+import logging
+
+logger = logging.getLogger(__name__)
 
 class Database():
 
@@ -15,4 +18,5 @@ class Database():
         self.db = self.client.metrotwitterdb
 
     def insert(self, collection_name, data):
+        logger.info('Insert document into <' + collection_name + '>')
         return self.db[collection_name].insert(data)
