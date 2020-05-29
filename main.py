@@ -6,6 +6,8 @@ import logging
 import tweepy
 from os import environ
 from flask import Flask
+from logging.handlers import TimedRotatingFileHandler
+
 
 WORDS = ['metro_madrid']
 
