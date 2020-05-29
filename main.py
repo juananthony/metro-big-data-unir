@@ -33,6 +33,10 @@ f_handler.setFormatter(f_format)
 logger.addHandler(c_handler)
 logger.addHandler(f_handler)
 
+
+from classes.streamListener import StreamListener
+import config
+
 if sys.argv[1] == '-t':
     CONSUMER_KEY = config.CONSUMER_KEY
     CONSUMER_SECRET = config.CONSUMER_SECRET
@@ -46,8 +50,7 @@ elif sys.argv[1] == '-f':
 
 logger.info("Starting app")
 
-from classes.streamListener import StreamListener
-import config
+
 
 auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
 auth.set_access_token(ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
