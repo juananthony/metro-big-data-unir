@@ -6,6 +6,9 @@ import logging
 import tweepy
 from os import environ
 from flask import Flask
+from logging.handlers import TimedRotatingFileHandler
+from urllib3.exceptions import ProtocolError
+
 
 WORDS = ['metro_madrid']
 
@@ -17,10 +20,7 @@ f_handler = TimedRotatingFileHandler(
                 filename=os.path.join('./logs', 'metrodata' + sys.argv[1] + '.log'),
                 when="midnight",
                 interval=1,
-                backupCount=7
-            rotating_handler.setLevel(level)
-            rotating_handler.setFormatter(formatter)
-            self.logger.addHandler(rotating_handler)
+                backupCount=7)
 c_handler.setLevel(logging.WARNING)
 f_handler.setLevel(logging.ERROR)
 
@@ -33,6 +33,10 @@ f_handler.setFormatter(f_format)
 # Add handlers to the logger
 logger.addHandler(c_handler)
 logger.addHandler(f_handler)
+
+
+from classes.streamListener import StreamListener
+import config
 
 if sys.argv[1] == '-t':
     CONSUMER_KEY = config.CONSUMER_KEY
@@ -47,8 +51,7 @@ elif sys.argv[1] == '-f':
 
 logger.info("Starting app")
 
-from classes.streamListener import StreamListener
-import config
+
 
 auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
 auth.set_access_token(ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
@@ -59,9 +62,13 @@ listener = StreamListener(classify=has_to_classify, api=tweepy.API(wait_on_rate_
 streamer = tweepy.Stream(auth=auth, listener=listener)
 
 
-if sys.argv[1] == '-t':
-    logger.info("Tracking: " + str(WORDS))
-    streamer.filter(track=WORDS)
-elif sys.argv[1] == '-f':
-    logger.info("user.id: " + config.OFFICIAL_METRO_ACCOUNT)
-    streamer.filter(follow=[config.OFFICIAL_METRO_ACCOUNT])
+while True:
+    try:
+        if sys.argv[1] == '-t':
+            logger.info("Tracking: " + str(WORDS))
+            streamer.filter(track=WORDS)
+        elif sys.argv[1] == '-f':
+            logger.info("user.id: " + config.OFFICIAL_METRO_ACCOUNT)
+            streamer.filter(follow=[config.OFFICIAL_METRO_ACCOUNT])
+    except (ProtocolError, AttributeError):
+        continue

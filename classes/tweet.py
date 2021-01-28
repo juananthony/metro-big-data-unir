@@ -1,7 +1,9 @@
 import nltk
 import json
+import logging
 from .database import Database
 from nltk.tokenize import word_tokenize
+
 
 logger = logging.getLogger(__name__)
 

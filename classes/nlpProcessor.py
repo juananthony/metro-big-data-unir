@@ -25,7 +25,7 @@ class NlpProcessor():
 
     def classify(self, tweet):
         try:
-            logger.info('classifing tweet: ' + tweet)
+            logger.info('classifing tweet: ' + tweet.extractText())
             if tweet.isSpanish():
                 logger.info('tweet is in spanish')
                 created_at = tweet.created_at
