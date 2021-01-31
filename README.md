@@ -1,2 +1,3 @@
 # metro-big-data-unir
 
+This project is a python script that uses tweepy to create listeners and gather tweets from Twitter. This tweets follows two conditions: tweet was posted by specific user_id or that user_id was mentioned. After gather a tweet, some NLP techniques are used (remove stopwords, etc) and it is classified into 3 different classes depending on the content: ```issue```, ```complaint``` or ```nothing```. To classify every tweet, a pre-trained model based on Naive Bayes is used. Finally, this tweets is stored in a MongoDB database.
